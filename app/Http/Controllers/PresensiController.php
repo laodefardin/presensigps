@@ -273,6 +273,17 @@ class PresensiController extends Controller
         ->whereRaw('YEAR(tgl_presensi)="'.$tahun.'" ')
         ->orderBy('tgl_presensi')
         ->get();
+
+        if (isset($_POST['exportexcel'])) {
+            $time = date("D-M-Y H:i:s");
+            // funsi header dengan mengirimkan raw data excel
+            header("Content-type: application/vnd-ms-excel");
+            // mendefinisikan nama file export "hasil-export.xls"
+            header("Content-Disposition: attachment; filename=Laporan Presensi Karyawan $time.xls");
+            
+            return view('presensi.cetaklaporanexcel', compact('bulan', 'tahun', 'namabulan', 'karyawan', 'presensi'));
+
+        }
         
         return view('presensi.cetaklaporan', compact('bulan', 'tahun', 'namabulan', 'karyawan', 'presensi'));
     }
@@ -326,6 +337,14 @@ class PresensiController extends Controller
         ->whereRaw('YEAR(tgl_presensi)="' .$tahun. '"')
         ->groupByRaw('presensi.email, nama_lengkap')
         ->get();
+
+        if (isset($_POST['exportexcel'])) {
+            $time = date("D-M-Y H:i:s");
+            // funsi header dengan mengirimkan raw data excel
+            header("Content-type: application/vnd-ms-excel");
+            // mendefinisikan nama file export "hasil-export.xls"
+            header("Content-Disposition: attachment; filename=Rekap Presensi Karyawan $time.xls");
+        }
 
         $namabulan = ["","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 

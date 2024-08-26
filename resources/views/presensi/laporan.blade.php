@@ -23,7 +23,7 @@
                 <div class="col-6">
                     <div class="card">
                         <div class="card-body">
-                            <form action="/presensi/cetaklaporan" target="_blank" method="post">
+                            <form action="/presensi/cetaklaporan" id="frmLaporan" target="_blank" method="post">
                                 @csrf
                                 <div class="row mt-2">
                                     <div class="col-12">
@@ -60,7 +60,7 @@
                                 <div class="row mt-2">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <select name="id" id="id" class="form-control" required>
+                                            <select name="id" id="id" class="form-control">
                                                 <option value="">Pilih Karyawan</option>
                                                 @foreach ($karyawan as $d)
                                                     <option value="{{ $d->email }}">{{ $d->nama_lengkap }}</option>
@@ -113,3 +113,47 @@
         </div>
     </div>
 @endsection
+@push('myscript')
+<script>
+    $(function() {
+        $("#frmLaporan").submit(function(e){
+            var bulan = $("#bulan").val();
+            var tahun = $("#tahun").val();
+            var email = $("#id").val();
+            if (bulan === ""){
+                Swal.fire({
+                        title: 'Warning!',
+                        text: 'Bulan harus Diisi !!',
+                        icon: 'warning',
+                        confirmationButtonText: 'Ok',
+                    }).then((result) => {
+                        $('#bulan').focus();
+                    });
+                    return false;
+
+            }else if(tahun === ""){
+                Swal.fire({
+                        title: 'Warning!',
+                        text: 'Tahun harus Diisi !!',
+                        icon: 'warning',
+                        confirmationButtonText: 'Ok',
+                    }).then((result) => {
+                        $('#tahun').focus();
+                    });
+                    return false;
+            
+            }else if(email === ""){
+                Swal.fire({
+                        title: 'Warning!',
+                        text: 'Nama Karyawan harus Diisi !!',
+                        icon: 'warning',
+                        confirmationButtonText: 'Ok',
+                    }).then((result) => {
+                        $('#id').focus();
+                    });
+                    return false;
+            }
+        });
+    });
+</script>
+@endpush

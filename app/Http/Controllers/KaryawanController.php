@@ -44,6 +44,12 @@ class KaryawanController extends Controller
         $password = Hash::make('karyawan123');
         // $karyawan = DB::table('karyawan')->where('email', $email)->first();
 
+        // cek apakah email sudah ada di database
+        $existingKaryawan = DB::table('karyawan')->where('email', $request->email)->first();
+        if ($existingKaryawan) {
+            return redirect()->back()->with('warning', 'Data Gagal Disimpan. Email ' . $request->email . ' sudah ada didalam database');
+        }
+
         // Jika ada file foto yang diunggah, atur nama file baru
         if($request->hasFile('foto')){
             $foto = $email . ".". time() . "." . $request->file('foto')->getClientOriginalExtension();
@@ -71,7 +77,7 @@ class KaryawanController extends Controller
             }
         } catch (\Exception $e) {
             // dd($e);
-            return Redirect::back()->with(['warning' => 'Data Gagal Disimpan']);
+            return Redirect::back()->with(['warning' => 'Data Gagal Disimpan: '] . $e->getMessage());
         }
     }
 

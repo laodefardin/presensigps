@@ -104,4 +104,5 @@ Route::middleware(['auth:user'])->group(function () {
     Route::get('/konfigurasi/lokasikantor', [KonfigurasiController::class, 'lokasikantor']);
     Route::post('/konfigurasi/updatelokasikantor', [KonfigurasiController::class, 'updatekonfigurasilokasi']);
 
+    Route::get('/konfigurasi/jamkerja', [KonfigurasiController::class, 'jamkerja']);
 });

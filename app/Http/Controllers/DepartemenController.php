@@ -30,6 +30,11 @@ class DepartemenController extends Controller
             'nama_dept' => $nama_dept,
         ];
 
+        $cek = DB::table('departemen')->where('kode_dept', $kode_dept)->count();
+        if ($cek>0){
+            return Redirect::back()->with(['warning' => 'Data dengan Kode Dept. '.$kode_dept. 'Sudah Ada']);
+        }
+
         $simpan = DB::table('departemen')->insert($data);
         if($simpan){
             return Redirect::back()->with(['success' => 'Data Berhasil Disimpan']);
